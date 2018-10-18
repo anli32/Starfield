@@ -1,4 +1,5 @@
 Particle [] bloodStream;
+PImage bg; 
 void setup() {
   size(500, 500);
   frameRate(50);
@@ -7,11 +8,14 @@ void setup() {
     bloodStream[i] = new NormalParticle();
   }
   bloodStream[bloodStream.length - 1] = new JumboParticle();
+  bloodStream[bloodStream.length - 2] = new OddballParticle();
+  bg = loadImage("background.PNG");
 }
 
 void draw() {
-  //bloodVessel();
-  background(193, 59, 90);
+  bloodVessel();
+  
+  //background(193, 59, 90);
   for(int i = 0; i < bloodStream.length; i++) {
     bloodStream[i].move();
     bloodStream[i].show();
@@ -21,16 +25,17 @@ void draw() {
 void bloodVessel() {
    // Radial color gradient
   // Loop over every pixel in the window, for every pixel color it based on the pixel's distance from the center
-  for(int y = 0; y < height; y++){
-    for(int x = 0; x < width; x++){
-      // Get the distance between each pizel and the center of the window
-      //    Then pass the distance into stroke() so that as the pixels get farther from the center the color changes
-      //        This produces a radial gradient
-      float distanceFromCenter = dist(x, y, height / 2, width / 2);
-      stroke((distanceFromCenter / 2) + 120, distanceFromCenter / 2, distanceFromCenter / 2);
-      point(x, y);
-    }
-  }
+  //for(int y = 0; y < height; y++){
+  //  for(int x = 0; x < width; x++){
+  //    // Get the distance between each pizel and the center of the window
+  //    //    Then pass the distance into stroke() so that as the pixels get farther from the center the color changes
+  //    //        This produces a radial gradient
+  //    float distanceFromCenter = dist(x, y, height / 2, width / 2);
+  //    stroke((distanceFromCenter / 2) + 120, distanceFromCenter / 2, distanceFromCenter / 2);
+  //    point(x, y);
+  //  }
+  //}
+  image(bg,0,0,500,500);
 }
 
 interface Particle {
@@ -94,12 +99,32 @@ class JumboParticle extends NormalParticle{
     ellipse((float)myX, (float)myY, 50, 50);
     fill(252, 191, 255, 200);
     ellipse((float)myX, (float)myY, 50, 50);
-    fill(0);
-    ellipse((float)myX - 8, (float)myY - 3, 5, 5);
-    ellipse((float)myX + 8, (float)myY - 3, 5, 5);
-    fill(245, 104, 116);
-    ellipse((float)myX, (float)myY + 8, 7, 7);
   }
 }
 
-void OddballParticle implements Particle {
+class OddballParticle implements Particle {
+  int myX, myY, myColor, myDirection;
+
+  OddballParticle() {
+    myX = 250;
+    myY = 250;
+    myColor = color(229, 81, 101);
+    myDirection = 1;
+  }
+  
+  void move() {
+    myX= myX + myDirection;
+    if(myX > 400 || myX < 50)
+      myDirection = -myDirection;
+  }
+  
+  void show() {
+    noStroke();
+    fill(255, 255, 255, 170);
+    ellipse(myX, myY, 50, 50);
+    fill(255, 208, 180, 150);
+    ellipse(myX, myY, 30, 30);
+  }
+}
+ 
+      
