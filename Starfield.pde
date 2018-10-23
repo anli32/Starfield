@@ -76,14 +76,6 @@ class NormalParticle implements Particle {
 
 class JumboParticle extends NormalParticle{
   
-  JumboParticle() {
-    myX = 250;
-    myY = 250;
-    myAngle = Math.random() * (Math.PI * 2);
-    mySpeed = (Math.random() * 2) + 1;
-    myColor = color(251, 173, 255);
-  }
-  
   void show() {
     translate((float)myX, (float)myY);
     for(float i = 0; i < Math.PI * 1.9; i = i + (float)(Math.PI * 2 / 12)) {
